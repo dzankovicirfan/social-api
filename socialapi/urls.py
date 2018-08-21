@@ -7,6 +7,7 @@ from django.contrib import admin
 api_urls = (
     [
         path('account/', include('account.urls')),
+        path('entities/', include('entities.urls')),
     ],
     'api'
 )
