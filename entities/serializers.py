@@ -26,7 +26,9 @@ class PostSerializer(serializers.ModelSerializer):
         return super(PostSerializer, self).create(validated_data)
 
     def update(self, instance, validated_data):
-        validated_data['user'] = self.context['request'].user
+        user = validated_data['user'] = self.context['request'].user
+        if user != instance.user:
+            raise serializers.ValidationError('You can only change your own post')
 
         return super(PostSerializer, self).create(validated_data)
 
@@ -47,8 +49,4 @@ class LikeSerializer(serializers.ModelSerializer):
 
         return super(PostSerializer, self).create(validated_data)
 
-    # def destroy(self, request, *args, **kwargs):
-    #     if request.user == self.user:
-    #         return super(LikeSerializer, self).destroy(request, *args, **kwargs)
-    #     else:
-    #         raise serializers.ValidationError('Not your like')
+
