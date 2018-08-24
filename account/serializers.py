@@ -2,14 +2,10 @@
 from __future__ import unicode_literals
 
 from rest_framework import serializers
+from socialapi import settings
 
 from .models import User
-from pyhunter import PyHunter
-import clearbit
-
-
-hunter = PyHunter('c60c4406617d0f1ad2c24526e5fa258c96a5a878')
-clearbit.key = 'sk_d4ff07e1dfde61281f450c0ae22936af'
+import punter
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -25,17 +21,17 @@ class UserSerializer(serializers.ModelSerializer):
             'date_joined': {'read_only': True},
         }
 
+    def validate_email(self, value):
+        response = punter.search(settings.hunter_key, value)
+        if response['status'] == 'success' and response['exist']:
+            return value
+        else:
+            raise serializers.ValidationError('Email does not exist')
+
     def create(self, validated_data):
-        # komentarisano da ne bih pri testiranju trosio zahteve prema hunteru
-        # ogranicen je na 100 zahteva mesecno
-
         email = validated_data['email']
-        # email_exist = hunter.email_verifier(email)
 
-        # if not email_exist:
-        #     raise serializers.ValidationError('Email does not exist')
-
-        person = clearbit.Enrichment.find(email=email, stream=True)
+        person = settings.clearbit.Enrichment.find(email=email, stream=True)
 
         if person is not None:
             validated_data['additional_info'] = person

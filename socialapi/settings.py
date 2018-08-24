@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-
+from pyhunter import PyHunter
+import clearbit
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -146,3 +147,7 @@ REST_FRAMEWORK = {
 JWT_AUTH = {
     'JWT_VERIFY_EXPIRATION': False,
 }
+
+
+hunter_key = 'c60c4406617d0f1ad2c24526e5fa258c96a5a878'
+clearbit.key = 'sk_d4ff07e1dfde61281f450c0ae22936af'
