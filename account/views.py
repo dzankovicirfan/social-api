@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
 
 from .models import User
 from .serializers import UserSerializer
@@ -26,6 +27,7 @@ class UserSignUpView(CreateAPIView):
     '''
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = (AllowAny, )
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -33,5 +35,5 @@ class UserSignUpView(CreateAPIView):
         self.perform_create(serializer)
 
         return Response(
-            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+            serializer.data, status=status.HTTP_201_CREATED
         )

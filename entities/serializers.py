@@ -38,15 +38,15 @@ class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like
         fields = ('id', 'post', 'user')
+        extra_kwargs = {
+            'user': {'read_only': True}
+        }
 
     def create(self, validated_data):
-        validated_data['user'] = self.context['request'].user
+        user = validated_data['user'] = self.context['request'].user
+        post_user = validated_data['post'].user
 
-        return super(PostSerializer, self).create(validated_data)
+        if user == post_user:
+            raise serializers.ValidationError('You can not like your own post')
 
-    def update(self, instance, validated_data):
-        validated_data['user'] = self.context['request'].user
-
-        return super(PostSerializer, self).create(validated_data)
-
-
+        return super(LikeSerializer, self).create(validated_data)

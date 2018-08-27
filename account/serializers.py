@@ -23,7 +23,8 @@ class UserSerializer(serializers.ModelSerializer):
 
     def validate_email(self, value):
         response = punter.search(settings.hunter_key, value)
-        if response['status'] == 'success' and response['exist']:
+        # if response['status'] == 'success' and response['exist']:
+        if response['status'] == 'success':
             return value
         else:
             raise serializers.ValidationError('Email does not exist')
