@@ -13,6 +13,7 @@ class PostView(ModelViewSet):
 
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    filter_fields = ('title', 'user')
 
     def destroy(self, request, *args, **kwargs):
         obj = self.get_object()
@@ -32,6 +33,7 @@ class LikeView(
 
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
+    filter_fields = ('post', 'user')
 
     def destroy(self, request, *args, **kwargs):
         obj = self.get_object()

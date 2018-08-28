@@ -31,7 +31,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         email = validated_data['email']
-
+        validated_data['is_active'] = True
         # person = settings.clearbit.Enrichment.find(email=email, stream=True)
 
         # if person is not None:

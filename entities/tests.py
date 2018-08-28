@@ -14,8 +14,7 @@ class PostTests(APITestCase):
     def setUp(self):
         self.user = User.objects.create(
             username='test',
-            email='test@email.com',
-            is_active=True
+            email='test@email.com'
         )
         self.user.set_password('12345')
         self.user.save()
@@ -71,8 +70,7 @@ class PostTests(APITestCase):
     def test_update_wrong_owner_failed(self):
         self.user1 = User.objects.create(
             username='test1',
-            email='test1@email.com',
-            is_active=True
+            email='test1@email.com'
         )
         self.post1 = Post.objects.create(
             title='First post',
@@ -107,8 +105,7 @@ class PostTests(APITestCase):
     def test_delete_now_owner_failed(self):
         self.user1 = User.objects.create(
             username='test1',
-            email='test1@email.com',
-            is_active=True
+            email='test1@email.com'
         )
         self.post1 = Post.objects.create(
             title='First post',
@@ -129,16 +126,14 @@ class LikeTests(APITestCase):
     def setUp(self):
         self.user1 = User.objects.create(
             username='test1',
-            email='test1@email.com',
-            is_active=True
+            email='test1@email.com'
         )
         self.user1.set_password('12345')
         self.user1.save()
 
         self.user2 = User.objects.create(
             username='test2',
-            email='test2@mail.com',
-            is_active=True
+            email='test2@mail.com'
         )
         self.user1.set_password('12345')
         self.user1.save()

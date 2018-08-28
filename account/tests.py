@@ -14,8 +14,7 @@ class UserTests(APITestCase):
         self.user = User.objects.create(
             username='test',
             email='test@email.com',
-            password='12345',
-            is_active=True
+            password='12345'
         )
         self.client = APIClient()
         self.client.force_authenticate(user=self.user)
@@ -31,14 +30,12 @@ class UserTests(APITestCase):
         self.user1 = User.objects.create(
             username='test1',
             email='test1@email.com',
-            password='123456',
-            is_active=True
+            password='123456'
         )
         self.user2 = User.objects.create(
             username='test2',
             email='test2@email.com',
-            password='123456',
-            is_active=True
+            password='123456'
         )
 
         response = self.client.get(self.url)
@@ -50,8 +47,7 @@ class UserTests(APITestCase):
         data = {
             'username': 'testko',
             'email': 'testko@email.com',
-            'password': '12345',
-            'is_active': True
+            'password': '12345'
         }
 
         response = self.client.post(self.url, data)
@@ -62,8 +58,7 @@ class UserTests(APITestCase):
     def test_post_without_email_failed(self):
         data = {
             'username': 'testko',
-            'password': '12345',
-            'is_active': True
+            'password': '12345'
         }
 
         response = self.client.post(self.url, data)
@@ -75,8 +70,7 @@ class UserTests(APITestCase):
         data = {
             'username': 'testko',
             'email': 'testkoemail.com',
-            'password': '12345',
-            'is_active': True
+            'password': '12345'
         }
 
         response = self.client.post(self.url, data)
@@ -84,14 +78,13 @@ class UserTests(APITestCase):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(User.objects.count(), 1)
 
-    def test_sign_up_alredy_exist_failed(self):
-        self.url = reverse('api:account:sign_up')
+    def test_signup_alredy_exist_failed(self):
+        self.url = reverse('api:account:signup')
 
         data = {
             'username': 'test',
             'email': 'test@email.com',
-            'password': '12345',
-            'is_active': True
+            'password': '12345'
         }
 
         response = self.client.post(self.url, data)
@@ -99,14 +92,13 @@ class UserTests(APITestCase):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(User.objects.count(), 1)
 
-    def test_sign_up_success(self):
-        self.url = reverse('api:account:sign_up')
+    def test_signup_success(self):
+        self.url = reverse('api:account:signup')
 
         data = {
             'username': 'test1',
             'email': 'test1@email.com',
-            'password': '12345',
-            'is_active': True
+            'password': '12345'
         }
 
         response = self.client.post(self.url, data)
@@ -119,8 +111,7 @@ class UserTests(APITestCase):
         self.user1 = User.objects.create(
             username='test1',
             email='test1@email.com',
-            password='12345',
-            is_active=True
+            password='12345'
         )
         self.user1.set_password('12345')
         self.user1.save()

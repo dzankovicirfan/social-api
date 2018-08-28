@@ -12,7 +12,7 @@ import random
 # from account.models import User
 
 
-# url_for_sign_up = "http://127.0.0.1:8000/api/account/sign-up/"
+# url_for_signup = "http://127.0.0.1:8000/api/account/sign-up/"
 # url_for_login = "http://127.0.0.1:8000/api/account/login/"
 # url_for_posting = "http://127.0.0.1:8000/api/entities/post/"
 # url_for_like = "http://127.0.0.1:8000/api/entities/like/"
@@ -43,35 +43,36 @@ def pass_generator(size=6, char=string.ascii_uppercase + string.digits):
 
 class User(object):
 
-    def __init__(self):
-        self.user = None
-        self.password = None
-        self.headers = None
-        self.user_post_number = None
-        self.post = []
+    user = None
+    password = None
+    headers = None
+    user_post_number = None
+    posts = []
 
-    def sign_up(self, counter):
-        url = api_url + "account/sign-up/"
-        user_name = "user" + "%s" % counter
-        self.user_post_number = randint(0, max_posts_per_user)
-        user_mail = user_name + "@mail.com"
-        password = pass_generator()
+    def __init__(self):
+        self.user_name = "user%s" % randint(1, 1000)
+        self.user_post_number = randint(1, max_posts_per_user)
+        self.user_mail = "%s@mail.com" % self.user_name
+        self.password = pass_generator()
+
+        pass
+
+    def signup(self):
+        # url = api_url + "account/signup/"
         data = {
-            "username": user_name,
-            "email": user_mail,
-            "password": password,
-            "is_active": True
+            "username": self.user_name,
+            "email": self.user_mail,
+            "password": self.password
         }
-        response = requests.post(url, data)
+        response = requests.post("%saccount/signup/" % api_url, data)
         response = json.loads(response.content.decode('utf-8'))
         self.user = response
-        self.password = password
 
     def login(self):
-        login_url = api_url + "account/login/"
+        # login_url = api_url + "account/login/"
         login = requests.post(
-            login_url,
-            {'username': self.user['username'], 'password': self.password}
+            "%saccount/login/" % api_url,
+            {'username': self.user_name, 'password': self.password}
         )
         response = json.loads(login.content.decode('utf-8'))
         authorization = 'JWT ' + response['token']
@@ -81,20 +82,37 @@ class User(object):
         }
 
     def create_post(self):
-        url = api_url + "entities/post/"
-        for count in range(1, self.user_post_number+1):
+        for count in range(0, self.user_post_number):
             title = post_generator(10)
             text = post_generator(50)
             post_data = {
                 "title": title,
-                "text": text,
-                "user": self.user['id']
+                "text": text
             }
             post_data_json = json.dumps(post_data)
-            response = requests.post(url, post_data_json, headers=self.headers)
+            response = requests.post(
+                "%sentities/post/" % api_url,
+                post_data_json,
+                headers=self.headers
+            )
             post = json.loads(response.content.decode('utf-8'))
-            self.post.append(post)
+            self.posts.append(post)
 
+
+# !!! testing !!!
+
+user = User()
+user.signup()
+user.login()
+user.create_post()
+print(user)
+print(user.user)
+print(user.password)
+print(user.headers)
+print(user.user_post_number)
+print(user.posts)
+
+# !!! testing !!!
 
 
 def find_post(users):
@@ -117,10 +135,6 @@ def liking(user, post_id):
     user.save()
     return
 
-# user = User()
-# user.sign_up(24)
-# user.login()
-# user.create_post()
 
 users = []
 for counter in range(1, number_of_users+1):
@@ -128,19 +142,27 @@ for counter in range(1, number_of_users+1):
     Create users, get user authorization and create posts
     '''
     user = User()
-    user.sign_up(counter)
+    user.signup()
     user.login()
     user.create_post()
     users.append(user)
 
-#sort users by number of posts
-users.sort(key=lambda x: x.user_post_number, reverse=True)
+# sort users by number of posts
+users_desent = users
+users_desent.sort(key=lambda x: x.user_post_number, reverse=True)
+for user in users:
+    print(user.user_post_number)
+
+for user in users_desent:
+    print(user.user_post_number)
 # for user in users:
 
-print(users)
-for user in users:
-    if user
-    print(user.user_post_number)
+# print(users)
+# for user in users_desent:
+#     if user:
+#     print(user.user_post_number)
+
+
 #     # check
 # print(users)
 #     #creating posts

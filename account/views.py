@@ -18,6 +18,7 @@ class UserView(ModelViewSet):
     '''
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    filter_fields = ('id', 'username', )
 
 
 class UserSignUpView(CreateAPIView):
