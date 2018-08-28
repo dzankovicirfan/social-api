@@ -21,21 +21,21 @@ class UserSerializer(serializers.ModelSerializer):
             'date_joined': {'read_only': True},
         }
 
-    def validate_email(self, value):
-        response = punter.search(settings.hunter_key, value)
-        # if response['status'] == 'success' and response['exist']:
-        if response['status'] == 'success':
-            return value
-        else:
-            raise serializers.ValidationError('Email does not exist')
+    # def validate_email(self, value):
+    #     response = punter.search(settings.hunter_key, value)
+    #     # if response['status'] == 'success' and response['exist']:
+    #     if response['status'] == 'success':
+    #         return value
+    #     else:
+    #         raise serializers.ValidationError('Email does not exist')
 
     def create(self, validated_data):
         email = validated_data['email']
 
-        person = settings.clearbit.Enrichment.find(email=email, stream=True)
+        # person = settings.clearbit.Enrichment.find(email=email, stream=True)
 
-        if person is not None:
-            validated_data['additional_info'] = person
+        # if person is not None:
+        #     validated_data['additional_info'] = person
 
         user = super(UserSerializer, self).create(validated_data)
         user.set_password(validated_data.get('password'))
