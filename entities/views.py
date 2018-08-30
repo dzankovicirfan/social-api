@@ -8,12 +8,14 @@ from rest_framework import mixins, viewsets
 from .models import Post, Like
 from .serializers import PostSerializer, LikeSerializer
 
+from .filters import PostFilter
+
 
 class PostView(ModelViewSet):
 
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    filter_fields = ('title', 'user')
+    filter_class = PostFilter
 
     def destroy(self, request, *args, **kwargs):
         obj = self.get_object()

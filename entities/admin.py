@@ -7,7 +7,7 @@ from .models import Post, Like
 
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = list_display_links = ['title', 'user', 'likes_NO']
+    list_display = list_display_links = ['title', 'user', 'likes_no']
 
 
 class LikeAdmin(admin.ModelAdmin):

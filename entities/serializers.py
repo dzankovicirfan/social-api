@@ -7,16 +7,18 @@ from .models import Post, Like
 
 
 class PostSerializer(serializers.ModelSerializer):
+    likes = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Post
         fields = (
-            'id', 'title', 'text', 'user', 'likes_NO',
+            'id', 'title', 'text', 'user', 'likes',
             'created_at', 'updated_at'
         )
         extra_kwargs = {
             'created_at': {'read_only': True},
             'updated_at': {'read_only': True},
+            'likes_no': {'read_only': True},
             'user': {'read_only': True}
         }
 

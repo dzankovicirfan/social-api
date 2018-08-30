@@ -18,7 +18,7 @@ class Post(models.Model):
         return '%s' % self.title
 
     @property
-    def likes_NO(self):
+    def likes_no(self):
         return self.likes.all().count()
 
     class Meta:

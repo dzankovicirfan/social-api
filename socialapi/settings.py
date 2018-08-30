@@ -153,5 +153,5 @@ JWT_AUTH = {
 }
 
 
-hunter_key = 'c60c4406617d0f1ad2c24526e5fa258c96a5a878'
+HUNTER_KEY = 'c60c4406617d0f1ad2c24526e5fa258c96a5a878'
 clearbit.key = 'sk_d4ff07e1dfde61281f450c0ae22936af'
