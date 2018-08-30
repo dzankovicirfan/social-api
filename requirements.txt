@@ -7,9 +7,12 @@ pytz==2018.5
 PyJWT==1.6.4
 
 # email hunter
-pyhunter==0.3
+punter==0.1.2
 requests==2.19.1
 urllib3==1.23
 chardet==3.0.4
 certifi==2018.8.13
 idna==2.7
+
+# clearbit
+clearbit==0.1.7
