@@ -27,6 +27,6 @@ $ python manage.py runserver
 ### Run bot
 Run server before running a bot.
 ```sh
-$ cd social-api/bot
+$ cd bot
 $ python automated_bot.py
 ```
