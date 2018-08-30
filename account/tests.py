@@ -50,8 +50,7 @@ class UserTests(APITestCase):
             'password': '12345'
         }
 
-        response = self.client.post(self.url, data)
-
+        response = self.client.post(self.url + '?bot=1', data)
         self.assertEqual(response.status_code, 201)
         self.assertEqual(User.objects.count(), 2)
 
@@ -101,7 +100,7 @@ class UserTests(APITestCase):
             'password': '12345'
         }
 
-        response = self.client.post(self.url, data)
+        response = self.client.post(self.url + '?bot=1', data)
 
         self.assertEqual(response.status_code, 201)
         self.assertEqual(User.objects.count(), 2)
