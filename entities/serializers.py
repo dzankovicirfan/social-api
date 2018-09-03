@@ -2,6 +2,8 @@
 from __future__ import unicode_literals
 
 from rest_framework import serializers
+from rest_framework.validators import UniqueTogetherValidator
+
 
 from .models import Post, Like
 
@@ -37,12 +39,21 @@ class PostSerializer(serializers.ModelSerializer):
 
 class LikeSerializer(serializers.ModelSerializer):
 
+    user = serializers.PrimaryKeyRelatedField(
+        read_only=True,
+        default=serializers.CurrentUserDefault()
+    )
+
     class Meta:
         model = Like
         fields = ('id', 'post', 'user')
-        extra_kwargs = {
-            'user': {'read_only': True}
-        }
+
+        validators = [
+            UniqueTogetherValidator(
+                queryset=Like.objects.all(),
+                fields=('post', 'user')
+            )
+        ]
 
     def create(self, validated_data):
         user = validated_data['user'] = self.context['request'].user

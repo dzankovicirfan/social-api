@@ -179,6 +179,19 @@ class LikeTests(APITestCase):
         self.assertEqual(response.data['user'], self.user1.id)
         self.assertEqual(Like.objects.count(), 1)
 
+    def test_create_like_duplicate_failed(self):
+        self.like1 = Like.objects.create(
+            post=self.post2,
+            user=self.user1
+        )
+        data = {
+            'post': self.post2.pk
+        }
+        response = self.client.post(self.url, data)
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(Like.objects.count(), 1)
+
     def test_like_your_own_post_failed(self):
         data = {
             'post': self.post1.pk
