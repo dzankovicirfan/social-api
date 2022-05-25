@@ -4,7 +4,7 @@ djangorestframework==3.8.2
 djangorestframework-jwt==1.11.0
 psycopg2==2.7.5
 pytz==2018.5
-PyJWT==1.6.4
+PyJWT==2.4.0
 
 # email hunter
 punter==0.1.2
