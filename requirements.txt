@@ -11,7 +11,7 @@ punter==0.1.2
 requests>=2.20.0
 urllib3==1.23
 chardet==3.0.4
-certifi==2018.8.13
+certifi==2022.12.7
 idna==2.7
 
 # clearbit
